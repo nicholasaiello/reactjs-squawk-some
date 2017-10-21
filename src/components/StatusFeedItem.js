@@ -1,37 +1,57 @@
 import React from 'react';
 
-const highlightTweetText = (text, query = null) => {
-  let match, builders = [], i = 0;
+/**
+ * Add highlight styles to provided query matches
+ */
+const highlightText = (text, query = null) => {
+  if (!query) {
+      return text;
+  }
+
   const re = new RegExp(query, 'ig');
 
-  while((match = re.exec(text))) {
+  let builders = [], i = 0, match = re.exec(text);
+  while(match) {
     const m = match[0];
     builders.push(text.substr(0, match.index));
     builders.push(<span key={i} className="mark">{m}</span>);
     builders.push(text.substr(match.index + m.length));
 
     i++;
+    match = re.exec(text);
   }
 
   if (builders.length === 0) {
     return text;
   }
 
-  // console.log(builders);
-
   return builders;
 }
 
-const FeedItem = ({ query, item }) => (
-  <li className={"feed-item"} style={{backgroundImage: `url('${item.user_profile_img}')`}}>
-    <p>
-      <strong>
-        <a href={`https://twitter.com/${item.user_screen_name}`} target="_blank">{item.user_name}</a>
-      </strong>
-      {highlightTweetText(item.text, query)}
-    </p>
-    <small>{item.created_at}</small>
-  </li>
+/**
+ * format Date to readable string
+ */
+const formatDateTimeString = (dt) => (
+  `${dt.toLocaleDateString()} ${dt.toLocaleTimeString()}`
 );
+
+const FeedItem = ({ query, item }) => {
+  const classes = ['feed-item'];
+  if (item.text.length >= 140) {
+    classes.push('big');
+  }
+
+  return (
+    <li className={classes.join(' ')} style={{backgroundImage: `url('${item.user_profile_img}')`}}>
+      <p>
+        <strong>
+          <a href={`https://twitter.com/${item.user_screen_name}`} target="_blank">{item.user_name}</a>
+        </strong>
+        {highlightText(item.text, query)}
+      </p>
+      <small>{formatDateTimeString(new Date(item.created_at))}</small>
+    </li>
+  );
+};
 
 export default FeedItem;

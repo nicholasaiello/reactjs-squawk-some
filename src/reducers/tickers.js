@@ -8,22 +8,31 @@ const initialState = {
   sinceId: 0
 };
 
+const buildNewState = (feed, action) => {
+  const { results, query } = action;
+
+  if (results) {
+    feed.addAll(results.statuses.slice());
+  }
+
+  const size = feed.size();
+  return {
+    feed,
+    query,
+    count: size,
+    sinceId: size > 0 ? feed.get(0).id : 0
+  };
+};
+
 // TODO naming is whack
 export default function streams(state = initialState, action) {
 
   switch(action.type) {
+    case types.NEW_STREAM:
+      return buildNewState(MaxSizeStack(), action);
     case types.FETCH_STREAM:
-      const { results, query } = action,
-        feed = state.feed.clone();
-
-      feed.addAll(results.statuses.slice());
-
-      return {
-        feed,
-        query,
-        count: feed.size(),
-        sinceId: state.sinceId + 1
-      };
+      return buildNewState(
+        state.feed.clone(), action);
     default:
       return state;
   }
