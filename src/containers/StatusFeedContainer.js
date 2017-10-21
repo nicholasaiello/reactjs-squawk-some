@@ -3,18 +3,21 @@ import { connect } from 'react-redux';
 
 import StatusFeed from '../components/StatusFeed';
 
-const StreamContainer = ({ tickers }) => {
-  const { feed, count } = tickers;
+const StatusFeedContainer = ({ tickers, dispatch }) => {
   return (
-    <StatusFeed feed={feed} count={count} />
+    <StatusFeed {...tickers} dispatch={dispatch} />
   );
 };
 
 const mapStateToProps = (state) => ({
-  ...state
+  tickers: state.tickers
 });
 
 export default connect(
   mapStateToProps,
-  {}
-)(StreamContainer);
+  {
+    dispatch: (dispatch) => {
+      return dispatch
+    }
+  }
+)(StatusFeedContainer);

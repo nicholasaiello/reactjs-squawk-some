@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import StreamContainer from './containers/StreamContainer';
+import StatusFeedContainer from './containers/StatusFeedContainer';
 
 import './App.css';
 
@@ -8,7 +8,8 @@ class App extends Component {
   render() {
     return (
       <main className="App">
-        <StreamContainer />
+        <nav></nav>
+        <StatusFeedContainer />
       </main>
     );
   }
