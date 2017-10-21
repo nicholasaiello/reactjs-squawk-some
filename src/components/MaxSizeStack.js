@@ -14,7 +14,7 @@ const MaxSizeStack = (items = [], maxSize = DEFAULT_MAX_SIZE) => {
   const size = () => ( arr.length );
 
   const get = (idx) => (
-    size() > 0 && idx < size() ? arr[idx] : null
+    idx >= 0 && idx < size() ? arr[idx] : null
   );
 
   const add = (item) => {
@@ -29,7 +29,7 @@ const MaxSizeStack = (items = [], maxSize = DEFAULT_MAX_SIZE) => {
         lastStatus = get(len-1),
         lastStatusDate = Date.parse(lastStatus.created_at);
 
-      for (let i = len - 1; i >= 0; i--) {
+      for (let i = items.length - 1; i >= 0; i--) {
           const obj = items[i];
           // TODO add comparator?
           if ((Date.parse(obj.created_at)) > lastStatusDate) {
@@ -41,6 +41,7 @@ const MaxSizeStack = (items = [], maxSize = DEFAULT_MAX_SIZE) => {
       if (diff > 0) {
         arr.splice(0, maxSize);
       }
+
     }
   };
 

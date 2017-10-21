@@ -15,7 +15,7 @@ export default function streams(state = initialState, action) {
       const { results } = action,
         feed = state.feed.clone();
 
-      feed.addAll(results.statuses);
+      feed.addAll(results.statuses.slice());
 
       return {
         feed,

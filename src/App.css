@@ -11,38 +11,72 @@
 #feed-wrapper {
   display: flex;
   flex-direction: column;
+  transition: all 350ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
 }
 
-#feed-wrapper li {
+#feed-wrapper .feed-item {
+  position: relative;
   flex: 0 0 80%;
+  height: 5em;
   padding: 8px 16px 8px 75px;
   text-align: left;
   background-repeat: no-repeat;
   background-position: 15px 50%;
   background-color: #eee;
-  transition: all 350ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);
   cursor: pointer;
   border-bottom: 1px solid rgba(0,0,0,0.2);
 }
 
-#feed-wrapper li:nth-child(odd) {
+#feed-wrapper .feed-item.feed-item-appear, #feed-wrapper .feed-item.feed-item-appear-active {
+  transition: none;
+}
+
+#feed-wrapper .feed-item.feed-item-appear, #feed-wrapper .feed-item.feed-item-enter {
+  height: 0;
+  opacity: 0;
+}
+
+#feed-wrapper .feed-item.feed-item-appear-active, #feed-wrapper .feed-item.feed-item-enter-active {
+  opacity: 1;
+  height: 5em;
+}
+
+#feed-wrapper .feed-item.feed-item-leave {
+  opacity: 1;
+  height: 5em;
+}
+
+#feed-wrapper .feed-item.feed-item-leave-active {
+  height: 0;
+  opacity: 0;
+}
+
+#feed-wrapper .feed-item:nth-child(odd) {
   background-color: #d5d5d5;
 }
 
-#feed-wrapper li:hover {
+#feed-wrapper .feed-item:hover {
   background-color: #bbb;
 }
 
-#feed-wrapper li a {
+#feed-wrapper .feed-item a {
   color: #000;
   text-decoration: none;
 }
 
-#feed-wrapper li a:hover {
+#feed-wrapper .feed-item a:hover {
   color: #333;
   text-decoration: underline;
 }
 
-#feed-wrapper li small {
-  opacity: 0.5;
+#feed-wrapper .feed-item small {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  opacity: 0.2;
+}
+
+#feed-wrapper .feed-item:hover small {
+  opacity: 0.6;
 }
