@@ -8,7 +8,7 @@ const highlightText = (text, query = null) => {
       return text;
   }
 
-  const re = new RegExp(query, 'ig');
+  const re = new RegExp(query.replace(/(\$|\@|\#)/, `\\$`), 'ig');
 
   let builders = [], i = 0, match = re.exec(text);
   while(match) {

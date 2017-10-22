@@ -3,8 +3,8 @@
   "name": "$quawk $ome, not all.",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "192x192",
+      "src": "favicon.png",
+      "sizes": "256x256",
       "type": "image/png"
     }
   ],

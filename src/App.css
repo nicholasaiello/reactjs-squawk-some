@@ -22,8 +22,85 @@
   box-shadow: rgba(0,0,0,0.2) 0 1px 4px 0;
 }
 
+.App nav .nav-btn {
+  width: 36px;
+  height: 36px;
+  margin-right: 16px;
+  color: #fff;
+  background: none;
+  border: 0;
+  border-radius: 36px;
+  outline: 0;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 400ms cubic-bezier(0.23, 1, 0.32, 1) 25ms;
+}
+
+.App nav .nav-btn:hover {
+  background: #555;
+}
+
+.App nav .nav-btn:before {
+  content:'\2630';
+}
+
 .App nav form {
+  position: absolute;
+  right: 16px;
   z-index: 12;
+}
+
+.App aside {
+  position: fixed;
+  z-index: 99;
+  background: rgba(0,0,0,0.3);
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  transition: opacity 400ms ease-in 100ms;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.App aside.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.App aside ul, li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.App aside ul {
+  position: relative;
+  width: 0;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: #bbb;
+  box-shadow: rgba(0,0,0,0.25) 2px 0 2px 0;
+  transition: all 200ms linear 100ms;
+}
+
+.App aside.open ul {
+  width: 33.333%;
+}
+
+.App footer {
+  padding: 4px 16px;
+  text-align: right;
+  background: #333;
+  color: #ccc;
+  border-top:1px solid #000;
+}
+
+.App footer p {
+  margin: 0;
 }
 
 .App .feed-sync-progressbar {
@@ -101,12 +178,15 @@
 
 #feed-wrapper .feed-item p {
   margin: 4px 0;
+  font-size: 14px;
+  font-family: 'Open Sans', serif;
 }
 
 #feed-wrapper .feed-item a {
   color: #000;
   text-decoration: none;
   margin-right: 6px;
+  font-family: 'Lato', serif;
 }
 
 #feed-wrapper .feed-item a:hover {
@@ -124,12 +204,13 @@
   right: 8px;
   bottom: 8px;
   opacity: 0.2;
-  font-size: 13px;
+  font-size: 12px;
+  font-family: 'Montserrat', serif;
 }
 
 #feed-wrapper .feed-item:hover small {
   opacity: 0.5;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* Start ReactCSSTransitionGroup Styles */
