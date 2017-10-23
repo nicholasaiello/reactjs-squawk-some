@@ -20,7 +20,7 @@ import './App.css';
 const AppNav = ({ query, onNavToggle, onSearchSubmit }) => {
   return (
     <nav>
-      <button class="nav-btn" onClick={onNavToggle}></button>
+      <button className="nav-btn" onClick={onNavToggle}></button>
       <form onSubmit={onSearchSubmit}>
         <input type="search" name="srch" placeholder="search for something..." /> ->
         <input type="text" name="fltr" placeholder="filter results..." />
@@ -65,7 +65,7 @@ class App extends Component {
     this.state = {
       query: props.query,
       autoSync: props.autoSync,
-      drawerOpen: true
+      drawerOpen: false
     }
   }
 

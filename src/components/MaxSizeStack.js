@@ -26,13 +26,13 @@ const MaxSizeStack = (items = [], maxSize = DEFAULT_MAX_SIZE) => {
       arr = [...items];
     } else {
       const len = size(),
-        lastStatus = get(len-1),
+        lastStatus = get(0),
         lastStatusDate = Date.parse(lastStatus.created_at);
 
       for (let i = items.length - 1; i >= 0; i--) {
           const obj = items[i];
           // TODO add comparator?
-          if ((Date.parse(obj.created_at)) > lastStatusDate) {
+          if (Date.parse(obj.created_at) > lastStatusDate) {
             add(obj);
           }
       }
@@ -64,6 +64,7 @@ const MaxSizeStack = (items = [], maxSize = DEFAULT_MAX_SIZE) => {
     size,
     // TODO don't need it
     contains: () => {},
+    isEmpty,
     get,
     add,
     addAll,

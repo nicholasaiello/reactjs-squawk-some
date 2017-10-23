@@ -11,16 +11,16 @@ const initialState = {
 const buildNewState = (feed, action) => {
   const { results, query } = action;
 
-  if (results) {
+  if (results && results.statuses) {
     feed.addAll(results.statuses.slice());
   }
 
-  const size = feed.size();
+  const count = feed.size();
   return {
     feed,
     query,
-    count: size,
-    sinceId: size > 0 ? feed.get(0).id : 0
+    count,
+    sinceId: count > 0 ? feed.get(0).id : 0
   };
 };
 

@@ -12,6 +12,11 @@ const newStream = (query) => ({
 });
 
 export const getTickersStream = (q) => (dispatch, getState) => {
+  if (!q) {
+    dispatch( getStream(null, []) );
+    return;
+  }
+
   const { tickers } = getState();
   api.getStream(q, tickers.sinceId || 0)
     .then((results) => dispatch( getStream(q, results) ))
@@ -19,6 +24,11 @@ export const getTickersStream = (q) => (dispatch, getState) => {
 };
 
 export const getNewTickerStream = (q, fltr) => (dispatch, getState) => {
+  if (!q) {
+    dispatch( getStream(null, []) );
+    return;
+  }
+
   dispatch( newStream(q) );
   api.getStream(q, 0)
     .then((results) => dispatch( getStream(q, results) ))

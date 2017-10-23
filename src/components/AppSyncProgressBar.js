@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { DEFAULT_SYNC_INTERVAL } from '../constants/Env';
 
+// TODO need to restart on search/filter actions
 export default class AppSyncProgressBar extends Component {
 
   constructor(props) {
@@ -19,6 +20,12 @@ export default class AppSyncProgressBar extends Component {
       style.transition = `all ${progressInterval}ms linear`;
       this.handleProgressChange();
     });
+  }
+
+  resetProgress() {
+    clearTimeout(this.progressTimeoutId);
+    this.progressTimeoutId = 0;
+    this.progressStep = -1;
   }
 
   // TODO refactor?
@@ -40,9 +47,7 @@ export default class AppSyncProgressBar extends Component {
         }, progressInterval);
       } else {
         this.props.onProgressComplete();
-        clearTimeout(this.progressTimeoutId);
-        this.progressTimeoutId = 0;
-        this.progressStep = -1;
+        this.resetProgress();
 
         this.handleProgressChange();
       }
