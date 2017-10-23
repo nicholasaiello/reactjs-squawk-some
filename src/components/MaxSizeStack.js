@@ -25,8 +25,7 @@ const MaxSizeStack = (items = [], maxSize = DEFAULT_MAX_SIZE) => {
     if (isEmpty()) {
       arr = [...items];
     } else {
-      const len = size(),
-        lastStatus = get(0),
+      const lastStatus = get(0),
         lastStatusDate = Date.parse(lastStatus.created_at);
 
       for (let i = items.length - 1; i >= 0; i--) {

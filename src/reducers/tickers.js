@@ -9,7 +9,7 @@ const initialState = {
 };
 
 const buildNewState = (feed, action) => {
-  const { results, query } = action;
+  const { results, query, fltr } = action;
 
   if (results && results.statuses) {
     feed.addAll(results.statuses.slice());
@@ -19,6 +19,7 @@ const buildNewState = (feed, action) => {
   return {
     feed,
     query,
+    fltr,
     count,
     sinceId: count > 0 ? feed.get(0).id : 0
   };
@@ -33,6 +34,8 @@ export default function streams(state = initialState, action) {
     case types.FETCH_STREAM:
       return buildNewState(
         state.feed.clone(), action);
+    case types.FILTER_FEED:
+      return {...state, fltr: action.fltr.trim()};
     default:
       return state;
   }

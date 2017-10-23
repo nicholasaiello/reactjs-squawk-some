@@ -3,7 +3,7 @@ import React from 'react';
 /**
  * Add highlight styles to provided query matches
  */
-const highlightText = (text, query = null) => {
+const highlightText = (text, query = null, clsName) => {
   if (!query) {
       return text;
   }
@@ -14,7 +14,7 @@ const highlightText = (text, query = null) => {
   while(match) {
     const m = match[0];
     builders.push(text.substr(0, match.index));
-    builders.push(<span key={i} className="mark">{m}</span>);
+    builders.push(<span key={i} className={clsName}>{m}</span>);
     builders.push(text.substr(match.index + m.length));
 
     i++;
@@ -47,7 +47,7 @@ const FeedItem = ({ query, item }) => {
         <strong>
           <a href={`https://twitter.com/${item.user_screen_name}`} target="_blank">{item.user_name}</a>
         </strong>
-        {highlightText(item.text, query)}
+        {highlightText(item.text, query, "mark")}
       </p>
       <small>{formatDateTimeString(new Date(item.created_at))}</small>
     </li>

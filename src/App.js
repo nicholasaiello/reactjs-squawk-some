@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 
-import { DEFAULT_SYNC_INTERVAL } from './constants/Env';
+import AppNav from './components/AppNav';
 
 import AppSyncProgressBar from './components/AppSyncProgressBar';
 import StatusFeedContainer from './containers/StatusFeedContainer';
 
 import {
   getNewTickerStream,
-  getTickersStream
+  getTickersStream,
+  filterFeed
 } from './actions/streams';
 
 import './App.css';
@@ -17,32 +18,19 @@ import './App.css';
  * TODO: break-up
  */
 
-const AppNav = ({ query, onNavToggle, onSearchSubmit }) => {
-  return (
-    <nav>
-      <button className="nav-btn" onClick={onNavToggle}></button>
-      <form onSubmit={onSearchSubmit}>
-        <input type="search" name="srch" placeholder="search for something..." /> ->
-        <input type="text" name="fltr" placeholder="filter results..." />
-        <input type="submit" style={{ display: "none" }} />
-      </form>
-    </nav>
-  );
-};
-
 const AppDrawer = ({ open, onOpenToggle }) => {
 
   return (
     <aside className={open ? "open" : ''} onClick={onOpenToggle}>
       <ul>
-
+        <li>adding stuff here soon</li>
       </ul>
     </aside>
   );
 
 };
 
-const AppFooter = ({  }) => {
+const AppFooter = () => {
 
   const year = (new Date()).getFullYear();
 
@@ -63,7 +51,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: props.query,
+      query: props.query || window.localStorage.getItem('_lastQuery') || '',
+      fltr: props.fltr || '',
       autoSync: props.autoSync,
       drawerOpen: false
     }
@@ -77,10 +66,7 @@ class App extends Component {
     const { dispatch } = this.props,
       { query } = this.state;
 
-    dispatch(
-      // TODO clean-up
-      getTickersStream(query || window.localStorage.getItem('_lastQuery'))
-    );
+    dispatch(getTickersStream(query));
   }
 
   handleDrawerToggle = () => {
@@ -91,25 +77,23 @@ class App extends Component {
     this.triggerSync();
   }
 
-  handleSearchSubmit = (e) => {
-    e.preventDefault();
+  handleSearchChange = (e, value) => {
+    this.setState({ query: value });
+  }
 
-    const { dispatch } = this.props,
-      form = e.target,
-      query = form.srch.value,
-      fltr = form.fltr.value;
+  handleSearchSubmit = (e, query, fltr) => {
+    this.props.dispatch(getNewTickerStream(query, fltr));
+  }
 
-    // TODO clean-up
-    window.localStorage.setItem('_lastQuery', query);
-
-    if (query) {
-      dispatch(getNewTickerStream(query, fltr));
-    }
+  handleSearchFilterChange = (e, value) => {
+    console.log(e, value)
+    this.setState({ fltr: value });
+    this.props.dispatch( filterFeed(value) );
   }
 
   render() {
 
-    const { query, autoSync, drawerOpen } = this.state;
+    const { query, fltr, autoSync, drawerOpen } = this.state;
 
     return (
       <main className="App">
@@ -118,8 +102,11 @@ class App extends Component {
           onOpenToggle={this.handleDrawerToggle} />
         <AppNav
           query={query}
+          fltr={fltr}
           onNavToggle={this.handleDrawerToggle}
-          onSearchSubmit={this.handleSearchSubmit} />
+          onSearchChange={this.handleSearchChange}
+          onSubmit={this.handleSearchSubmit}
+          onFilterChange={this.handleSearchFilterChange} />
         <AppSyncProgressBar
           enabled={autoSync}
           onProgressComplete={this.handleProgressComplete} />

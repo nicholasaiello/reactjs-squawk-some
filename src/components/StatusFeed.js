@@ -6,18 +6,26 @@ import StatusFeedItem from './StatusFeedItem';
 export default class StatusFeed extends Component {
 
   renderFeedItems() {
-    const { query, feed, count } = this.props;
+    const { query, fltr, feed, count } = this.props;
+
+    let results = feed.toArray();
+    if (fltr) {
+      // TODO profile this
+      results = results.filter(x => (
+        x.text.toLowerCase().indexOf(fltr) !== -1
+      ));
+    }
 
     return (
       feed.isEmpty()
-        ? <li className="feed-item-empty">Search!!</li>
+        ? <li className="feed-item empty"></li>
         : <ReactCSSTransitionGroup
             transitionName="feed-item"
             transitionAppear={true}
             transitionAppearTimeout={200}
             transitionEnterTimeout={300}
             transitionLeaveTimeout={100}>
-              {feed.toArray().map((x,i) => (
+              {results.map((x,i) => (
                 <StatusFeedItem key={count - i} query={query} item={x} />
               ))}
           </ReactCSSTransitionGroup>
@@ -25,8 +33,6 @@ export default class StatusFeed extends Component {
   }
 
   render() {
-    const { query, feed, count } = this.props;
-
     return (
       <ul id={"feed-wrapper"}>
         {this.renderFeedItems()}
