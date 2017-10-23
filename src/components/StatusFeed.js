@@ -7,7 +7,7 @@ export default class StatusFeed extends Component {
 
   renderFeedItems() {
     const { query, fltr, feed, count } = this.props;
-    console.log(this.props)
+
     let results = feed.toArray();
     if (fltr) {
       // TODO profile this

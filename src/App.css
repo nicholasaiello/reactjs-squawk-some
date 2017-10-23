@@ -248,6 +248,12 @@
   }
 }
 
+#feed-wrapper .feed-item img {
+  position: absolute;
+  left: 15px;
+  border-radius: 6px;
+}
+
 #feed-wrapper .feed-item p {
   margin: 4px 0;
   font-family: 'Open Sans', serif;
@@ -268,6 +274,10 @@
 #feed-wrapper .feed-item .mark {
   background: yellow;
   font-weight: bold;
+}
+
+#feed-wrapper .feed-item .mark.filter {
+  background: orange;
 }
 
 #feed-wrapper .feed-item small {
