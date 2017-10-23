@@ -41,6 +41,7 @@ const AppNav = ({ query, fltr, onNavToggle, onSearchChange, onSubmit, onFilterCh
   return (
     <nav>
       <button className="nav-btn" onClick={onNavToggle}></button>
+      <figure><em>$</em>quawk <em>$</em>ome</figure>
       <form name="search-form" onSubmit={(e) => handleSearchSubmit(e.nativeEvent)}>
         <input
           type="search"

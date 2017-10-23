@@ -32,7 +32,7 @@ const parseFilter = (i, text, fltr = '', clsName) => {
 };
 
 /**
- * Add highlight styles to provided query matches
+ * Add highlight styles to provided query/filter matches
  */
 const highlightText = (text, query = null, fltr = null, clsName) => {
   if (!query) {

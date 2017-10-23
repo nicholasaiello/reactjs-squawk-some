@@ -50,6 +50,32 @@
   content:'\2630';
 }
 
+.App nav figure {
+  margin: auto 2px;
+  font-family: 'Lato', sans-serif;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  color: #fff;
+}
+
+.App nav figure em {
+  font-size: 20px;
+  color: #01a701;
+}
+
+@media (max-width: 624px) {
+  .App nav figure {
+    margin: auto -4px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  .App nav figure em {
+    font-size: 16px;
+  }
+}
+
 .App nav form[name="search-form"] {
   position: absolute;
   right: 16px;
@@ -92,7 +118,7 @@
     font-size: 12px;
   }
   .App nav form input[name="srch"] {
-    width: 13em;
+    width: 12.5em;
   }
   .App nav form input[name="fltr"] {
     width: 8em;
@@ -284,13 +310,13 @@
   position: absolute;
   right: 8px;
   bottom: 8px;
-  opacity: 0.2;
+  opacity: 0.65;
   font-size: 12px;
   font-family: 'Montserrat', serif;
 }
 
 #feed-wrapper .feed-item:hover small {
-  opacity: 0.5;
+  opacity: 0.25;
   font-size: 13px;
 }
 
