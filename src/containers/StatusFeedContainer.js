@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 
 import StatusFeed from '../components/StatusFeed';
 
-const StatusFeedContainer = ({ tickers, dispatch }) => {
+const StatusFeedContainer = ({ streams, dispatch }) => {
   return (
-    <StatusFeed {...tickers} dispatch={dispatch} />
+    <StatusFeed {...streams} dispatch={dispatch} />
   );
 };
 
 const mapStateToProps = (state) => ({
-  tickers: state.tickers
+  streams: state.streams
 });
 
 export default connect(

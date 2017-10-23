@@ -7,7 +7,7 @@ export default class StatusFeed extends Component {
 
   renderFeedItems() {
     const { query, fltr, feed, count } = this.props;
-
+    console.log(this.props)
     let results = feed.toArray();
     if (fltr) {
       // TODO profile this
@@ -26,7 +26,11 @@ export default class StatusFeed extends Component {
             transitionEnterTimeout={300}
             transitionLeaveTimeout={100}>
               {results.map((x,i) => (
-                <StatusFeedItem key={count - i} query={query} item={x} />
+                <StatusFeedItem
+                  key={count - i}
+                  query={query}
+                  fltr={fltr}
+                  item={x} />
               ))}
           </ReactCSSTransitionGroup>
     );

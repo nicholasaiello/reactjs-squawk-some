@@ -12,22 +12,22 @@ const newStream = (query, fltr) => ({
   type: types.NEW_STREAM
 });
 
-export const getTickersStream = (q, fltr) => (dispatch, getState) => {
+// TODO rename getTwitterStream
+export const getTwitterStream = (q, fltr) => (dispatch, getState) => {
   if (!q) {
-    dispatch( getStream(null, null, []) );
-    return;
+    return dispatch( getStream(q, fltr, []) );
   }
 
-  const { tickers } = getState();
-  api.getStream(q, tickers.sinceId || 0)
+  const { streams } = getState();
+  api.getStream(q, streams.sinceId || 0)
     .then((results) => dispatch( getStream(q, fltr, results) ))
     .catch(err => console.log(err));
 };
 
-export const getNewTickerStream = (q, fltr) => (dispatch, getState) => {
+// TODO rename getNewTwitterStream
+export const getNewTwitterStream = (q, fltr) => (dispatch, getState) => {
   if (!q) {
-    dispatch( getStream(null, null, []) );
-    return;
+    return dispatch( getStream(null, null, []) );
   }
 
   dispatch( newStream(q, fltr) );

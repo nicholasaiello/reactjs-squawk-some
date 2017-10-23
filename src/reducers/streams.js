@@ -1,12 +1,7 @@
 import * as types from '../constants/ActionTypes';
 import MaxSizeStack from '../components/MaxSizeStack';
 
-const initialState = {
-  feed: MaxSizeStack(),
-  query: null,
-  count: 0,
-  sinceId: 0
-};
+const initialState = {};
 
 const buildNewState = (feed, action) => {
   const { results, query, fltr } = action;
@@ -26,14 +21,13 @@ const buildNewState = (feed, action) => {
 };
 
 // TODO naming is whack
-export default function streams(state = initialState, action) {
+const streams = (state = initialState, action) => {
 
   switch(action.type) {
     case types.NEW_STREAM:
       return buildNewState(MaxSizeStack(), action);
     case types.FETCH_STREAM:
-      return buildNewState(
-        state.feed.clone(), action);
+      return buildNewState(state.feed.clone(), action);
     case types.FILTER_FEED:
       return {...state, fltr: action.fltr.trim()};
     default:
@@ -41,3 +35,5 @@ export default function streams(state = initialState, action) {
   }
 
 };
+
+export default streams;

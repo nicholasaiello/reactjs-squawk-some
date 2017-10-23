@@ -16,17 +16,19 @@ const AppNav = ({ query, fltr, onNavToggle, onSearchChange, onSubmit, onFilterCh
       query = form.srch.value,
       fltr = form.fltr.value;
 
-    // TODO clean-up
-    window.localStorage.setItem('_lastQuery', query);
-
     if (query) {
+      // TODO clean-up
+      window.localStorage.setItem('_lastQuery', query);
       onSubmit(e, query, fltr);
     }
   };
 
   const handleFilterChange = function(e) {
     const fltr = e.target.value || '';
+
     if (fltr || e.inputType === 'deleteContentBackward') {
+      // TODO clean-up
+      window.localStorage.setItem('_lastFilter', fltr);
       onFilterChange(e, fltr);
     }
   };
@@ -51,7 +53,7 @@ const AppNav = ({ query, fltr, onNavToggle, onSearchChange, onSubmit, onFilterCh
         <input
           type="text"
           name="fltr"
-          value={fltr}
+          defaultValue={fltr}
           minLength={2}
           maxLength={16}
           placeholder="filter results..."

@@ -6,8 +6,8 @@ import AppSyncProgressBar from './components/AppSyncProgressBar';
 import StatusFeedContainer from './containers/StatusFeedContainer';
 
 import {
-  getNewTickerStream,
-  getTickersStream,
+  getNewTwitterStream,
+  getTwitterStream,
   filterFeed
 } from './actions/streams';
 
@@ -51,8 +51,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: props.query || window.localStorage.getItem('_lastQuery') || '',
-      fltr: props.fltr || '',
+      query: props.query,
+      fltr: props.fltr,
       autoSync: props.autoSync,
       drawerOpen: false
     }
@@ -64,9 +64,9 @@ class App extends Component {
 
   triggerSync = () => {
     const { dispatch } = this.props,
-      { query } = this.state;
+      { query, fltr } = this.state;
 
-    dispatch(getTickersStream(query));
+    dispatch(getTwitterStream(query, fltr));
   }
 
   handleDrawerToggle = () => {
@@ -82,7 +82,7 @@ class App extends Component {
   }
 
   handleSearchSubmit = (e, query, fltr) => {
-    this.props.dispatch(getNewTickerStream(query, fltr));
+    this.props.dispatch(getNewTwitterStream(query, fltr));
   }
 
   handleSearchFilterChange = (e, value) => {

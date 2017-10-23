@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
 // TODO rename streams
-import tickers from './tickers';
+import streams from './streams';
 
 export default combineReducers({
-  tickers
+  streams
 });

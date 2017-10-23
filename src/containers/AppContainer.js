@@ -3,14 +3,18 @@ import { connect } from 'react-redux';
 
 import App from '../App';
 
-const AppContainer = ({ dispatch }) => {
+const AppContainer = ({ streams, dispatch }) => {
   return (
-    <App dispatch={dispatch} />
+    <App {...streams} dispatch={dispatch} />
   );
 };
 
+const mapStateToProps = (state) => ({
+  streams: state.streams
+});
+
 export default connect(
-  (state) => (state),
+  mapStateToProps,
   {
     dispatch: (dispatch) => {
       return dispatch;
