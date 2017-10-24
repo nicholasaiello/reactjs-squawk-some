@@ -1,6 +1,6 @@
-- saved searches
-- highlight filtered text
-- paginate older tweets
-- rename tickers to streams
+- load older tweets
+- show stock price in UI
+- progress bar controls (start, stop, reset)
+- b...
 - break-up css
-- more UI
+- more UI (search, tweets)
