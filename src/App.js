@@ -1,48 +1,23 @@
 import React, { Component } from 'react';
 
 import AppNav from './components/AppNav';
+import AppDrawer from './components/AppDrawer';
+import AppFooter from './components/AppFooter';
 
 import AppSyncProgressBar from './components/AppSyncProgressBar';
 import StatusFeedContainer from './containers/StatusFeedContainer';
 
 import {
+  updateNavQuery,
+  updateNavFilter,
+} from './actions/nav';
+import {
   getNewTwitterStream,
-  getTwitterStream,
-  filterFeed
+  getTwitterStream
 } from './actions/streams';
 
 import './App.css';
 
-/**
- * App page layout components
- * TODO: break-up
- */
-
-const AppDrawer = ({ open, onOpenToggle }) => {
-
-  return (
-    <aside className={open ? "open" : ''} onClick={onOpenToggle}>
-      <ul>
-        <li>adding stuff here soon</li>
-      </ul>
-    </aside>
-  );
-
-};
-
-const AppFooter = () => {
-
-  const year = (new Date()).getFullYear();
-
-  return (
-    <footer>
-      <p>
-        <small>&copy; copyright nicholas aiello {year}. all rights reserved.</small>
-      </p>
-    </footer>
-  );
-
-};
 
 /* */
 
@@ -51,10 +26,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: props.query,
-      fltr: props.fltr,
       autoSync: props.autoSync,
-      drawerOpen: false
     }
   }
 
@@ -63,50 +35,40 @@ class App extends Component {
   }
 
   triggerSync = () => {
-    const { dispatch } = this.props,
-      { query, fltr } = this.state;
+    const { query, fltr, dispatch } = this.props;
 
+    // TODO combine
     dispatch(getTwitterStream(query, fltr));
-  }
-
-  handleDrawerToggle = () => {
-    this.setState({drawerOpen: !this.state.drawerOpen});
+    dispatch(updateNavQuery(query));
+    dispatch(updateNavFilter(fltr));
   }
 
   handleProgressComplete = () => {
     this.triggerSync();
   }
 
-  handleSearchChange = (e, value) => {
-    this.setState({ query: value });
-  }
-
   handleSearchSubmit = (e, query, fltr) => {
-    this.props.dispatch(getNewTwitterStream(query, fltr));
-  }
-
-  handleSearchFilterChange = (e, value) => {
-    console.log(e, value)
-    this.setState({ fltr: value });
-    this.props.dispatch( filterFeed(value) );
+    const { dispatch } = this.props;
+    // TODO combine
+    dispatch(getNewTwitterStream(query, fltr));
+    dispatch(updateNavQuery(query));
   }
 
   render() {
 
-    const { query, fltr, autoSync, drawerOpen } = this.state;
+    const { autoSync } = this.state,
+      { dispatch, searches, query, fltr, drawerOpen } = this.props;
 
     return (
       <main className="App">
         <AppDrawer
           open={drawerOpen}
-          onOpenToggle={this.handleDrawerToggle} />
+          dispatch={dispatch}
+          savedSearches={searches} />
         <AppNav
           query={query}
           fltr={fltr}
-          onNavToggle={this.handleDrawerToggle}
-          onSearchChange={this.handleSearchChange}
-          onSubmit={this.handleSearchSubmit}
-          onFilterChange={this.handleSearchFilterChange} />
+          dispatch={dispatch} />
         <AppSyncProgressBar
           enabled={autoSync}
           onProgressComplete={this.handleProgressComplete} />
@@ -119,6 +81,7 @@ class App extends Component {
 
 App.defaultProps = {
   query: null,
+  fltr: null,
   autoSync: true
 }
 

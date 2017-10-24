@@ -3,13 +3,19 @@ import { connect } from 'react-redux';
 
 import App from '../App';
 
-const AppContainer = ({ streams, dispatch }) => {
+const AppContainer = ({ nav, searches, streams, dispatch }) => {
   return (
-    <App {...streams} dispatch={dispatch} />
+    <App
+      {...streams}
+      {...nav}
+      searches={searches}
+      dispatch={dispatch} />
   );
 };
 
 const mapStateToProps = (state) => ({
+  nav: state.nav,
+  searches: state.searches,
   streams: state.streams
 });
 

@@ -7,6 +7,12 @@ import reducer from './reducers';
 
 const storage = window.localStorage;
 const initialState = {
+  nav: {
+    drawerOpen: false,
+    query: storage.getItem('_lastQuery') || '',
+    fltr: storage.getItem('_lastFilter') || ''
+  },
+  searches: JSON.parse(storage.getItem('_savedSearches') || '{}'),
   streams: {
     feed: MaxSizeStack(),
     query: storage.getItem('_lastQuery') || '',

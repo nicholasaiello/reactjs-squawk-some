@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux';
 
-// TODO rename streams
+import nav from './nav';
 import streams from './streams';
+import searches from './searches';
 
 export default combineReducers({
-  streams
+  nav,
+  streams,
+  searches
 });

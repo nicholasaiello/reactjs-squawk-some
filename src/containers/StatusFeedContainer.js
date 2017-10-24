@@ -3,13 +3,18 @@ import { connect } from 'react-redux';
 
 import StatusFeed from '../components/StatusFeed';
 
-const StatusFeedContainer = ({ streams, dispatch }) => {
+const StatusFeedContainer = ({ nav, streams, dispatch }) => {
   return (
-    <StatusFeed {...streams} dispatch={dispatch} />
+    <StatusFeed
+      {...streams}
+      query={nav.query}
+      fltr={nav.fltr}
+      dispatch={dispatch} />
   );
 };
 
 const mapStateToProps = (state) => ({
+  nav: state.nav,
   streams: state.streams
 });
 
