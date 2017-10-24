@@ -115,8 +115,9 @@ class App extends Component {
           dispatch={dispatch} />
         <AppTicker {...meta} />
         <AppSyncProgressBar
+          query={query}
           enabled={autoSync}
-          onProgressComplete={this.handleProgressComplete} />
+          dispatch={dispatch} />
         <StatusFeedContainer />
         <AppFooter />
       </main>

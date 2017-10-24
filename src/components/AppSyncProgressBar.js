@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 
 import { DEFAULT_SYNC_INTERVAL } from '../constants/Env';
 
+import {
+  getTwitterStream
+} from '../actions/streams';
+
+
 // TODO need to restart on search/filter actions
 export default class AppSyncProgressBar extends Component {
 
@@ -22,10 +27,14 @@ export default class AppSyncProgressBar extends Component {
     });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    this.handleProgressChange();
+  }
+
   resetProgress() {
     clearTimeout(this.progressTimeoutId);
     this.progressTimeoutId = 0;
-    this.progressStep = -1;
+    this.progressStep = -5;
   }
 
   // TODO refactor?
@@ -33,7 +42,7 @@ export default class AppSyncProgressBar extends Component {
     const { enabled } = this.state;
     if (enabled) {
       const { style } = this.refs.progressBar,
-        { progressInterval } = this.props;
+        { dispatch, query, progressInterval } = this.props;
 
       requestAnimationFrame(() => {
         style.width = `${this.progressStep}%`;
@@ -46,10 +55,8 @@ export default class AppSyncProgressBar extends Component {
           this.handleProgressChange();
         }, progressInterval);
       } else {
-        this.props.onProgressComplete();
+        dispatch(getTwitterStream(query));
         this.resetProgress();
-
-        this.handleProgressChange();
       }
 
     }

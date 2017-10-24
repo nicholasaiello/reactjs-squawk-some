@@ -20,14 +20,17 @@ const buildNewState = (feed, action) => {
   };
 };
 
-// TODO naming is whack
+// TODO remove filter and sort object by query
 const streams = (state = initialState, action) => {
 
   switch(action.type) {
     case types.NEW_STREAM:
       return buildNewState(MaxSizeStack(), action);
     case types.FETCH_STREAM:
-      return buildNewState(state.feed.clone(), action);
+    return {
+      ...state,
+      ...buildNewState(state.feed.clone(), action)
+    };
     case types.FILTER_FEED:
       return {...state, fltr: action.fltr.trim()};
     // TODO move
