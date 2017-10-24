@@ -12,32 +12,48 @@ const newStream = (query, fltr) => ({
   type: types.NEW_STREAM
 });
 
-// TODO rename getTwitterStream
 export const getTwitterStream = (q, fltr) => (dispatch, getState) => {
   if (!q) {
     return dispatch( getStream(q, fltr, []) );
   }
 
   const { streams } = getState();
-  api.getStream(q, streams.sinceId || 0)
+  api.getTwitterStream(q, streams.sinceId || 0)
     .then((results) => dispatch( getStream(q, fltr, results) ))
     .catch(err => console.log(err));
 };
 
-// TODO rename getNewTwitterStream
 export const getNewTwitterStream = (q, fltr) => (dispatch, getState) => {
   if (!q) {
     return dispatch( getStream(null, null, []) );
   }
 
   dispatch( newStream(q, fltr) );
-  api.getStream(q, 0)
-    .then((results) => dispatch( getStream(q, fltr, results) ))
+  api.getTwitterStream(q, 0)
+    .then((results) => {
+      dispatch(getStream(q, fltr, results));
+      if (q.charAt(0) === '$') {
+        dispatch(getMetaStock(q));
+      }
+      window.localStorage.setItem('_lastQuery', q);
+    })
     .catch(err => console.log(err));
 };
 
-// TODO rename
-export const filterFeed = (fltr) => ({
-  type: types.FILTER_FEED,
-  fltr
+// TODO move
+const getStock = (result) => ({
+  type: types.FETCH_STOCK,
+  result
 });
+
+export const getMetaStock = (symbol) => (dispatch) => {
+  if (!symbol) {
+    return;
+  }
+
+  api.getStockMeta(symbol)
+    .then((result) => {
+      dispatch(getStock(result));
+    })
+    .catch(err => console.log(err));
+};

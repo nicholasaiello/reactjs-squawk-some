@@ -30,6 +30,9 @@ const streams = (state = initialState, action) => {
       return buildNewState(state.feed.clone(), action);
     case types.FILTER_FEED:
       return {...state, fltr: action.fltr.trim()};
+    // TODO move
+    case types.FETCH_STOCK:
+      return {...state, meta: action.result};
     default:
       return state;
   }

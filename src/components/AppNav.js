@@ -21,19 +21,23 @@ class AppNav extends Component {
   }
 
   handleSearchChange = (e) => {
+    e.stopPropagation();
     const query = e.target.value || '';
     if (query || e.inputType === 'deleteContentBackward') {
-      this.props.dispatch(updateNavQuery(query));
+      const { dispatch } = this.props;
+      dispatch(updateNavQuery(query));
     }
   }
 
   handleFilterChange = (e) => {
+    e.stopPropagation();
     const fltr = e.target.value || '';
 
     if (fltr || e.inputType === 'deleteContentBackward') {
+      const { dispatch } = this.props;
       // TODO clean-up
       this.storage.setItem('_lastFilter', fltr);
-      this.props.dispatch(updateNavFilter(fltr));
+      dispatch(updateNavFilter(fltr));
     }
   }
 
@@ -45,10 +49,8 @@ class AppNav extends Component {
       fltr = form.fltr.value;
 
     if (query) {
-      // TODO clean-up
-      this.storage.setItem('_lastQuery', query);
-      this.props.dispatch(getNewTwitterStream(query, fltr));
-      form.srch.blur();
+      const { dispatch } = this.props;
+      dispatch(getNewTwitterStream(query, fltr));
     }
   }
 
@@ -68,7 +70,6 @@ class AppNav extends Component {
           <input
             type="search"
             name="srch"
-            defaultValue={query}
             maxLength={16}
             placeholder="search for something..."
             onInput={(e) => this.handleSearchChange(e.nativeEvent)} />
@@ -76,7 +77,6 @@ class AppNav extends Component {
           <input
             type="text"
             name="fltr"
-            defaultValue={fltr}
             minLength={2}
             maxLength={16}
             placeholder="filter results..."

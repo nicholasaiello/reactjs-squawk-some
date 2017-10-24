@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 
 import App from '../App';
 
-const AppContainer = ({ nav, searches, streams, dispatch }) => {
+const AppContainer = ({ nav, meta, searches, streams, dispatch }) => {
   return (
     <App
       {...streams}
       {...nav}
+      meta={meta}
       searches={searches}
       dispatch={dispatch} />
   );
@@ -15,6 +16,8 @@ const AppContainer = ({ nav, searches, streams, dispatch }) => {
 
 const mapStateToProps = (state) => ({
   nav: state.nav,
+  // FIXME
+  meta: state.streams.meta,
   searches: state.searches,
   streams: state.streams
 });

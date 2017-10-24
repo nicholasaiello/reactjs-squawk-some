@@ -224,7 +224,7 @@
 }
 
 .App aside li:last-child input[type="text"] {
-  width: 75%;
+  width: 92%;
   padding: 8px 8px;
   border-radius: 4px;
   border: 0;
@@ -251,11 +251,42 @@
   margin: 0;
 }
 
+.App .ticker {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 3em;
+  padding: 12px 16px;
+  transition: all 300ms ease-in;
+}
+
+.App .ticker h4, .App .ticker figure {
+  flex: 1;
+  margin: 0;
+}
+
+.App .ticker h4 {
+  font-size: 30px;
+  font-family: 'Montserrat', sans-serif;
+  border-right: 1px solid #e5e5e5;
+}
+
+.App .ticker figure label {
+  text-transform: uppercase;
+  font-size: 11px;
+  color: #888;
+}
+
+.App .ticker figure figcaption {
+  font-size: 14px;
+  font-weight: bolder;
+  font-family: 'Montserrat', sans-serif;
+}
+
 .App .feed-sync-progressbar {
   position: relative;
   height: 0.25em;
   z-index: 1;
-  margin-top: 3em;
   background: rgba(0,0,0,0.3);
   transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
 }

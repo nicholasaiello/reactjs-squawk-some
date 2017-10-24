@@ -17,6 +17,7 @@ const initialState = {
     feed: MaxSizeStack(),
     query: storage.getItem('_lastQuery') || '',
     fltr: storage.getItem('_lastFilter') || '',
+    meta: {},
     count: 0,
     sinceId: storage.getItem('_lastSinceId') || 0
   }

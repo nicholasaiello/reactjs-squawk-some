@@ -21,6 +21,48 @@ import './App.css';
 
 /* */
 
+const AppTicker = ({ symbol, price, open, volume, refreshed }) => {
+
+  if (!symbol) {
+    return (
+      <div className="ticker">
+        <em>loading...</em>
+      </div>
+    );
+  }
+
+  return (
+    <div className="ticker">
+      <h4>{symbol.toUpperCase()}</h4>
+      <figure>
+        <label>last tick:</label>
+        <figcaption>
+          ${parseFloat(price).toLocaleString('en')}
+        </figcaption>
+      </figure>
+      <figure>
+        <label>open:</label>
+        <figcaption>
+          ${parseFloat(open).toLocaleString('en')}
+        </figcaption>
+      </figure>
+      <figure>
+        <label>volume:</label>
+        <figcaption>
+          {parseInt(volume).toLocaleString('en')}
+        </figcaption>
+      </figure>
+      <figure>
+        <label>updated:</label>
+        <figcaption>
+          {new Date(refreshed).toLocaleDateString()}
+        </figcaption>
+      </figure>
+    </div>
+  );
+
+};
+
 class App extends Component {
 
   constructor(props) {
@@ -38,7 +80,7 @@ class App extends Component {
     const { query, fltr, dispatch } = this.props;
 
     // TODO combine
-    dispatch(getTwitterStream(query, fltr));
+    dispatch(getNewTwitterStream(query, fltr));
     dispatch(updateNavQuery(query));
     dispatch(updateNavFilter(fltr));
   }
@@ -49,15 +91,17 @@ class App extends Component {
 
   handleSearchSubmit = (e, query, fltr) => {
     const { dispatch } = this.props;
-    // TODO combine
+
+    // combine
     dispatch(getNewTwitterStream(query, fltr));
     dispatch(updateNavQuery(query));
+    dispatch(updateNavFilter(''));
   }
 
   render() {
 
     const { autoSync } = this.state,
-      { dispatch, searches, query, fltr, drawerOpen } = this.props;
+      { dispatch, searches, query, fltr, meta, drawerOpen } = this.props;
 
     return (
       <main className="App">
@@ -69,6 +113,7 @@ class App extends Component {
           query={query}
           fltr={fltr}
           dispatch={dispatch} />
+        <AppTicker {...meta} />
         <AppSyncProgressBar
           enabled={autoSync}
           onProgressComplete={this.handleProgressComplete} />
