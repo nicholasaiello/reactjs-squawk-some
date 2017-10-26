@@ -283,6 +283,24 @@
   font-family: 'Montserrat', sans-serif;
 }
 
+@media (max-width: 624px) {
+  .App .ticker {
+    padding: 8px;
+  }
+
+  .App .ticker h4 {
+    font-size: 20px;
+  }
+
+  .App .ticker figure label {
+    font-size: 10px;
+  }
+
+  .App .ticker figure figcaption {
+    font-size: 12px;
+  }
+}
+
 .App .feed-sync-progressbar {
   position: relative;
   height: 0.25em;

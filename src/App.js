@@ -4,6 +4,7 @@ import AppNav from './components/AppNav';
 import AppDrawer from './components/AppDrawer';
 import AppFooter from './components/AppFooter';
 
+import AppTicker from './components/AppTicker';
 import AppSyncProgressBar from './components/AppSyncProgressBar';
 import StatusFeedContainer from './containers/StatusFeedContainer';
 
@@ -20,50 +21,6 @@ import './App.css';
 
 
 /* */
-
-const AppTicker = ({ query, symbol, price, open, volume, refreshed }) => {
-
-  if (!symbol) {
-    return (
-      <div className="ticker">
-        <em>loading...</em>
-      </div>
-    );
-  }
-
-  return (query.charAt(0) !== '$'
-    ? <div className="ticker">
-        <h4>{symbol.toUpperCase()}</h4>
-      </div>
-    : <div className="ticker">
-        <h4>{symbol.toUpperCase()}</h4>
-        <figure>
-          <label>last tick:</label>
-          <figcaption>
-            ${parseFloat(price).toLocaleString('en')}
-          </figcaption>
-        </figure>
-        <figure>
-          <label>open:</label>
-          <figcaption>
-            ${parseFloat(open).toLocaleString('en')}
-          </figcaption>
-        </figure>
-        <figure>
-          <label>volume:</label>
-          <figcaption>
-            {parseInt(volume).toLocaleString('en')}
-          </figcaption>
-        </figure>
-        <figure>
-          <label>updated:</label>
-          <figcaption>
-            {new Date(refreshed).toLocaleDateString()}
-          </figcaption>
-        </figure>
-      </div>);
-
-};
 
 class App extends Component {
 
