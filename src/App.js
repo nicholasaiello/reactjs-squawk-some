@@ -9,11 +9,6 @@ import AppSyncProgressBar from './components/AppSyncProgressBar';
 import StatusFeedContainer from './containers/StatusFeedContainer';
 
 import {
-  updateNavQuery,
-  updateNavFilter
-} from './actions/nav';
-import {
-  getTwitterStream,
   getNewTwitterStream
 } from './actions/streams';
 
@@ -24,29 +19,18 @@ import './App.css';
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.triggerSync();
   }
 
   triggerSync = () => {
     const { query, fltr, dispatch } = this.props;
-    // TODO combine
-    dispatch(getNewTwitterStream(query));
-    dispatch(updateNavQuery(query));
-    dispatch(updateNavFilter(fltr));
+    dispatch(getNewTwitterStream(query, fltr));
   }
 
   handleSearchSubmit = (e, query, fltr) => {
     const { dispatch } = this.props;
-
-    // combine
-    dispatch(getNewTwitterStream(query));
-    dispatch(updateNavQuery(query));
-    dispatch(updateNavFilter(fltr));
+    dispatch(getNewTwitterStream(query, fltr));
   }
 
   render() {
@@ -71,7 +55,9 @@ class App extends Component {
           query={query}
           fltr={fltr}
           dispatch={dispatch} />
-        <AppTicker query={query} {...meta} />
+        <AppTicker
+          query={searches.query || query}
+          {...meta} />
         <AppSyncProgressBar
           progress={progress}
           dispatch={dispatch} />
@@ -80,11 +66,6 @@ class App extends Component {
       </main>
     );
   }
-}
-
-App.defaultProps = {
-  query: null,
-  fltr: null
 }
 
 export default App;

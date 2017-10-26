@@ -90,8 +90,8 @@
   font-size: 18px;
 }
 
-.App nav form input[name="srch"],
-.App nav form input[name="fltr"] {
+.App nav form input[type="search"],
+.App nav form input[type="text"] {
   width: 10em;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -103,25 +103,29 @@
   transition: opacity .3s linear;
 }
 
-.App nav form input[name="srch"] {
+.App nav form input[type="search"] {
   width: 15em;
 }
 
-.App nav form input[name="fltr"]:disabled {
+.App nav form input[type="text"]:disabled {
   opacity: 0.6;
 }
 
 @media (max-width: 624px) {
-  .App nav form input[name="srch"],
-  .App nav form input[name="fltr"] {
+  .App nav form input[type="search"],
+  .App nav form input[type="text"] {
     padding: 4px 6px;
     font-size: 12px;
   }
-  .App nav form input[name="srch"] {
+  .App nav form input[type="search"] {
     width: 12.5em;
   }
-  .App nav form input[name="fltr"] {
+  .App nav form input[type="text"] {
     width: 8em;
+  }
+  .App nav form[name="search-form"] label {
+    padding: 2px 8px;
+    font-size: 14px;
   }
 }
 
@@ -161,7 +165,7 @@
   top: 0;
   bottom: 0;
   left: -33.333%;
-  background: #bbb;
+  background: #e1e2e2;
   box-shadow: rgba(0,0,0,0.25) 2px 0 2px 0;
   transition: all 200ms ease-in 0ms;
 }
@@ -258,6 +262,8 @@
   margin-top: 3em;
   padding: 12px 16px;
   transition: all 300ms ease-in;
+  box-shadow: inset 0 0 12px 1px rgba(0,0,0,0.2);
+  background: #fff;
 }
 
 .App .ticker h4, .App .ticker figure {
@@ -266,6 +272,7 @@
 }
 
 .App .ticker h4 {
+  color: #444;
   font-size: 30px;
   font-family: 'Montserrat', sans-serif;
   border-right: 1px solid #e5e5e5;
@@ -346,7 +353,7 @@
   font-size: 14px;
   background-repeat: no-repeat;
   background-position: 15px 50%;
-  background-color: #e5e5e5;
+  background-color: #f4fdfd;
   transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);
   transform-origin: 0 0;
   cursor: pointer;
@@ -362,7 +369,7 @@
 }
 
 #feed-wrapper .feed-item:nth-child(odd) {
-  background-color: #eee;
+  background-color: #fbfffa;
 }
 
 #feed-wrapper .feed-item:hover {

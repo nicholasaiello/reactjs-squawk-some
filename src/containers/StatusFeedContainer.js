@@ -7,7 +7,6 @@ const StatusFeedContainer = ({ nav, streams, dispatch }) => {
   return (
     <StatusFeed
       {...streams}
-      query={nav.query}
       fltr={nav.fltr}
       dispatch={dispatch} />
   );

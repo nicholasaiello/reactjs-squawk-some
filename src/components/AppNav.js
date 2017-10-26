@@ -10,56 +10,44 @@ import {
 
 class AppNav extends Component {
 
-  constructor(props) {
-    super(props);
-    this.storage = window.localStorage;
-  }
-
   handleNavBtnClick = (e) => {
     e.stopPropagation();
     this.props.dispatch(toggleNavDrawer());
   }
 
-  handleSearchChange = (e) => {
-    e.stopPropagation();
-    const query = e.target.value || '';
-    if (query || e.inputType === 'deleteContentBackward') {
-      const { dispatch } = this.props;
-      dispatch(updateNavQuery(query));
-    }
-  }
-
   handleFilterChange = (e) => {
     e.stopPropagation();
-    const fltr = e.target.value || '';
+    const { value } = this.refs.fltr;
 
-    if (fltr || e.inputType === 'deleteContentBackward') {
+    if ((value || '') || e.inputType === 'deleteContentBackward') {
       const { dispatch } = this.props;
-      // TODO clean-up
-      this.storage.setItem('_lastFilter', fltr);
-      dispatch(updateNavFilter(fltr));
+      dispatch(updateNavFilter(value));
     }
   }
 
   handleSearchSubmit = (e) => {
     e.preventDefault();
 
-    const form = e.target,
-      query = form.srch.value,
-      fltr = form.fltr.value;
+    const { query, fltr } = this.refs;
 
-    if (query) {
+    if (query.value) {
+      query.blur();
+
       const { dispatch } = this.props;
-      dispatch(getNewTwitterStream(query, fltr));
+      dispatch(getNewTwitterStream(query.value, fltr.value));
     }
   }
 
   render() {
-    const { query, fltr } = this.props;
+    const { query, fltr } = this.props,
+      inputAttrs = {
+        minLength: 2,
+        maxLength: 16
+      };
 
-    let fltrProps = {};
+    let fltrAttrs = {};
     if (!query || query.length < 2) {
-      fltrProps['disabled'] = '1';
+      fltrAttrs['disabled'] = '1';
     }
 
     return (
@@ -68,19 +56,19 @@ class AppNav extends Component {
         <figure><em>$</em>quawk <em>$</em>ome</figure>
         <form name="search-form" onSubmit={(e) => this.handleSearchSubmit(e.nativeEvent)}>
           <input
+            ref="query"
             type="search"
-            name="srch"
-            maxLength={16}
-            placeholder="search for something..."
-            onInput={(e) => this.handleSearchChange(e.nativeEvent)} />
+            defaultValue={query}
+            placeholder="search, ex. $MSFT"
+            {...inputAttrs} />
           <label>&rarr;</label>
           <input
+            ref="fltr"
             type="text"
-            name="fltr"
-            minLength={2}
-            maxLength={16}
+            defaultValue={fltr}
             placeholder="filter results..."
-            {...fltrProps}
+            {...inputAttrs}
+            {...fltrAttrs}
             onInput={(e) => this.handleFilterChange(e.nativeEvent)} />
           <input type="submit" />
         </form>

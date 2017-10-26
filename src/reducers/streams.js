@@ -4,7 +4,7 @@ import MaxSizeStack from '../components/MaxSizeStack';
 const initialState = {};
 
 const buildNewState = (feed, action) => {
-  const { results, query, fltr } = action;
+  const { results, query } = action;
 
   if (results && results.statuses) {
     feed.addAll(results.statuses.slice());
@@ -14,7 +14,6 @@ const buildNewState = (feed, action) => {
   return {
     feed,
     query,
-    fltr,
     count,
     sinceId: count > 0 ? feed.get(0).id : 0
   };
@@ -31,11 +30,6 @@ const streams = (state = initialState, action) => {
       ...state,
       ...buildNewState(state.feed.clone(), action)
     };
-    case types.FILTER_FEED:
-      return {...state, fltr: action.fltr.trim()};
-    // TODO move
-    case types.FETCH_STOCK:
-      return {...state, meta: action.result};
     default:
       return state;
   }

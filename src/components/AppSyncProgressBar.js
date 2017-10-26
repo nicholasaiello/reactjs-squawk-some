@@ -4,8 +4,7 @@ import { DEFAULT_SYNC_INTERVAL } from '../constants/Env';
 
 import {
   incrementProgressBar,
-  startProgressBar,
-  stopProgressBar
+  startProgressBar
 } from '../actions/nav';
 import {
   getTwitterStream

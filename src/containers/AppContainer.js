@@ -15,9 +15,8 @@ const AppContainer = ({ nav, meta, searches, streams, dispatch }) => {
 };
 
 const mapStateToProps = (state) => ({
+  meta: state.meta,
   nav: state.nav,
-  // FIXME
-  meta: state.streams.meta,
   searches: state.searches,
   streams: state.streams
 });

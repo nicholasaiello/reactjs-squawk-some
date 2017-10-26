@@ -1,6 +1,12 @@
 import * as types from '../constants/ActionTypes';
 import * as api from '../api/streams';
-import { startProgressBar, stopProgressBar } from './nav';
+import {
+  startProgressBar,
+  stopProgressBar,
+  updateNavQuery,
+  updateNavFilter
+} from './nav';
+import { getMetaStock } from './meta';
 
 const getStream = (query, results = []) => ({
   type: types.FETCH_STREAM,
@@ -13,6 +19,7 @@ const newStream = (query) => ({
   query
 });
 
+// TODO this behaves more like a refresh
 export const getTwitterStream = (q) => (dispatch, getState) => {
   const { query, sinceId } = getState().streams;
 
@@ -31,35 +38,21 @@ export const getNewTwitterStream = (q, fltr) => (dispatch, getState) => {
     return dispatch( getStream(null, []) );
   }
 
-  dispatch(newStream(q, fltr));
   dispatch(stopProgressBar());
+  dispatch(newStream(q, fltr));
 
   api.getTwitterStream(q, 0)
     .then((results) => {
       dispatch(getStream(q, results));
-      dispatch(startProgressBar());
+
+      // TODO determine which meta to load
       if (q.charAt(0) === '$') {
         dispatch(getMetaStock(q));
       }
-      window.localStorage.setItem('_lastQuery', q);
-    })
-    .catch(err => console.log(err));
-};
 
-// TODO move
-const getStock = (result) => ({
-  type: types.FETCH_STOCK,
-  result
-});
-
-export const getMetaStock = (symbol) => (dispatch) => {
-  if (!symbol) {
-    return;
-  }
-
-  api.getStockMeta(symbol)
-    .then((result) => {
-      dispatch(getStock(result));
+      dispatch(updateNavQuery(q));
+      dispatch(updateNavFilter(fltr));
+      dispatch(startProgressBar());
     })
     .catch(err => console.log(err));
 };

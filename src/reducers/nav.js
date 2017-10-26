@@ -1,6 +1,7 @@
 import * as types from '../constants/ActionTypes';
 
-const initialState = {};
+const initialState = {},
+  storage = window.localStorage;
 
 const nav = (state = initialState, action) => {
   switch(action.type) {
@@ -20,11 +21,13 @@ const nav = (state = initialState, action) => {
         drawerOpen: !state.drawerOpen
       };
     case types.UPDATE_NAV_QUERY:
+      storage.setItem('_lastQuery', action.query);
       return {
         ...state,
         query: action.query
       };
     case types.UPDATE_NAV_FILTER:
+      storage.setItem('_lastFilter', action.fltr);
       return {
         ...state,
         fltr: action.fltr
