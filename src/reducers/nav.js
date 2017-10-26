@@ -29,6 +29,21 @@ const nav = (state = initialState, action) => {
         ...state,
         fltr: action.fltr
       };
+    case types.INCREMENT_PROGRESS:
+      return {
+        ...state,
+        progress: state.progress + 1
+      };
+    case types.START_PROGRESS:
+      return {
+        ...state,
+        progress: 0
+      };
+    case types.STOP_PROGRESS:
+      return {
+        ...state,
+        progress: -1
+      };
     default:
       return state;
   }

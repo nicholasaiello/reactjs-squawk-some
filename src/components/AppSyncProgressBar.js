@@ -3,18 +3,19 @@ import React, { Component } from 'react';
 import { DEFAULT_SYNC_INTERVAL } from '../constants/Env';
 
 import {
+  incrementProgressBar,
+  startProgressBar,
+  stopProgressBar
+} from '../actions/nav';
+import {
   getTwitterStream
 } from '../actions/streams';
 
-
-// TODO need to restart on search/filter actions
 export default class AppSyncProgressBar extends Component {
 
   constructor(props) {
     super(props);
-    this.progressStep = 0;
     this.progressTimeoutId = 0;
-    this.state = { enabled: props.enabled };
   }
 
   componentDidMount() {
@@ -28,52 +29,51 @@ export default class AppSyncProgressBar extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.handleProgressChange();
+    if (prevProps.progress !== this.props.progress) {
+      this.handleProgressChange();
+    }
   }
 
   resetProgress() {
     clearTimeout(this.progressTimeoutId);
     this.progressTimeoutId = 0;
-    this.progressStep = -5;
+    this.props.dispatch(startProgressBar());
   }
 
-  // TODO refactor?
   handleProgressChange = () => {
-    const { enabled } = this.state;
-    if (enabled) {
-      const { style } = this.refs.progressBar,
-        { dispatch, query, progressInterval } = this.props;
+    const {
+      dispatch,
+      progress,
+      progressInterval
+    } = this.props;
 
+    if (progress !== -1) {
+      const { style } = this.refs.progressBar;
       requestAnimationFrame(() => {
-        style.width = `${this.progressStep}%`;
+        style.width = `${progress}%`;
       });
 
-      const nextStep = this.progressStep + 1;
-      if (nextStep <= 100) {
-        this.progressStep = nextStep;
+      if (progress <= 100) {
         this.progressTimeoutId = setTimeout(() => {
-          this.handleProgressChange();
+          clearTimeout(this.progressTimeoutId);
+          dispatch(incrementProgressBar());
         }, progressInterval);
       } else {
-        dispatch(getTwitterStream(query));
+        dispatch(getTwitterStream());
         this.resetProgress();
       }
-
     }
   }
 
   render() {
-
     return (
       <div className="feed-sync-progressbar">
         <span ref="progressBar" />
       </div>
     );
-
   }
 }
 
 AppSyncProgressBar.defaultProps = {
-  progressInterval: (DEFAULT_SYNC_INTERVAL / 100),
-  onProgressComplete: () => {}
+  progressInterval: (DEFAULT_SYNC_INTERVAL / 100)
 };

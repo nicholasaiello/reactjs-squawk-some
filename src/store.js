@@ -10,7 +10,8 @@ const initialState = {
   nav: {
     drawerOpen: false,
     query: storage.getItem('_lastQuery') || '',
-    fltr: storage.getItem('_lastFilter') || ''
+    fltr: storage.getItem('_lastFilter') || '',
+    progress: -1
   },
   searches: JSON.parse(storage.getItem('_savedSearches') || '{}'),
   streams: {

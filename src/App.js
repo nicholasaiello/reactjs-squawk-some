@@ -10,11 +10,11 @@ import StatusFeedContainer from './containers/StatusFeedContainer';
 
 import {
   updateNavQuery,
-  updateNavFilter,
+  updateNavFilter
 } from './actions/nav';
 import {
-  getNewTwitterStream,
-  getTwitterStream
+  getTwitterStream,
+  getNewTwitterStream
 } from './actions/streams';
 
 import './App.css';
@@ -26,9 +26,6 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      autoSync: props.autoSync,
-    }
   }
 
   componentDidMount() {
@@ -37,30 +34,32 @@ class App extends Component {
 
   triggerSync = () => {
     const { query, fltr, dispatch } = this.props;
-
     // TODO combine
-    dispatch(getNewTwitterStream(query, fltr));
+    dispatch(getNewTwitterStream(query));
     dispatch(updateNavQuery(query));
     dispatch(updateNavFilter(fltr));
-  }
-
-  handleProgressComplete = () => {
-    this.triggerSync();
   }
 
   handleSearchSubmit = (e, query, fltr) => {
     const { dispatch } = this.props;
 
     // combine
-    dispatch(getNewTwitterStream(query, fltr));
+    dispatch(getNewTwitterStream(query));
     dispatch(updateNavQuery(query));
-    dispatch(updateNavFilter(''));
+    dispatch(updateNavFilter(fltr));
   }
 
   render() {
 
-    const { autoSync } = this.state,
-      { dispatch, searches, query, fltr, meta, drawerOpen } = this.props;
+    const {
+      dispatch,
+      searches,
+      meta,
+      query,
+      fltr,
+      progress,
+      drawerOpen
+    } = this.props;
 
     return (
       <main className="App">
@@ -74,8 +73,7 @@ class App extends Component {
           dispatch={dispatch} />
         <AppTicker query={query} {...meta} />
         <AppSyncProgressBar
-          query={query}
-          enabled={autoSync}
+          progress={progress}
           dispatch={dispatch} />
         <StatusFeedContainer />
         <AppFooter />
@@ -86,8 +84,7 @@ class App extends Component {
 
 App.defaultProps = {
   query: null,
-  fltr: null,
-  autoSync: true
+  fltr: null
 }
 
 export default App;

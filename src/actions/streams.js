@@ -1,37 +1,43 @@
 import * as types from '../constants/ActionTypes';
 import * as api from '../api/streams';
+import { startProgressBar, stopProgressBar } from './nav';
 
-const getStream = (query, fltr, results = []) => ({
+const getStream = (query, results = []) => ({
   type: types.FETCH_STREAM,
   query,
-  fltr,
   results
 });
 
-const newStream = (query, fltr) => ({
-  type: types.NEW_STREAM
+const newStream = (query) => ({
+  type: types.NEW_STREAM,
+  query
 });
 
-export const getTwitterStream = (q, fltr) => (dispatch, getState) => {
+export const getTwitterStream = (q) => (dispatch, getState) => {
+  const { query, sinceId } = getState().streams;
+
+  q = q || query;
   if (!q) {
-    return dispatch( getStream(q, fltr, []) );
+    return dispatch( getStream(q, []) );
   }
 
-  const { streams } = getState();
-  api.getTwitterStream(q, streams.sinceId || 0)
-    .then((results) => dispatch( getStream(q, fltr, results) ))
+  api.getTwitterStream(q, sinceId || 0)
+    .then((results) => dispatch( getStream(q, results) ))
     .catch(err => console.log(err));
 };
 
 export const getNewTwitterStream = (q, fltr) => (dispatch, getState) => {
   if (!q) {
-    return dispatch( getStream(null, null, []) );
+    return dispatch( getStream(null, []) );
   }
 
-  dispatch( newStream(q, fltr) );
+  dispatch(newStream(q, fltr));
+  dispatch(stopProgressBar());
+
   api.getTwitterStream(q, 0)
     .then((results) => {
-      dispatch(getStream(q, fltr, results));
+      dispatch(getStream(q, results));
+      dispatch(startProgressBar());
       if (q.charAt(0) === '$') {
         dispatch(getMetaStock(q));
       }

@@ -21,3 +21,15 @@ export const updateNavFilter = (fltr) => ({
   type: types.UPDATE_NAV_FILTER,
   fltr
 });
+
+export const incrementProgressBar = () => ({
+  type: types.INCREMENT_PROGRESS
+});
+
+export const startProgressBar = () => ({
+  type: types.START_PROGRESS
+});
+
+export const stopProgressBar = () => ({
+  type: types.STOP_PROGRESS
+});
